@@ -137,6 +137,19 @@ b {
   border-color: black black transparent transparent;
   animation: rotation 1.5s linear infinite;
 }
+.btn {
+  width: 125px;
+  height: 40px;
+  background-color: #4e75ff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+}
+.loader-more {
+  font: 400 16px / 1.5 "Montserrat", sans-serif;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
 
 @keyframes rotation {
   0% {

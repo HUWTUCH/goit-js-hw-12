@@ -8,10 +8,12 @@ const refs = {
   formEL: document.querySelector('.js-search-form'),
   loaderEl: document.querySelector('.loader'),
   galleryList: document.querySelector('.gallery'),
-  buttonLoad: document.querySelector('.btn-load')
+  buttonLoad: document.querySelector('.btn-load'),
+  loaderMore: document.querySelector('.loader-more')
 }
 let lastSearchData = null;
 refs.loaderEl.style.display = "none";
+refs.loaderMore.style.display = "none";
 refs.formEL.addEventListener('submit', async (e)=>{
   e.preventDefault()
   refs.galleryList.innerHTML = '';
@@ -51,7 +53,7 @@ refs.buttonLoad.addEventListener('click', async (e) => {
     return;
   }
   const currentPage = Math.ceil(refs.galleryList.children.length / 15) + 1;
-  refs.loaderEl.style.display = "block";
+  refs.loaderMore.style.display = "block";
   try {
     const data = await getSearchPhotoAPI(lastSearchData, currentPage);
     photoTemplate(data);
@@ -67,6 +69,6 @@ refs.buttonLoad.addEventListener('click', async (e) => {
       position: 'topRight'
     });
   } finally {
-    refs.loaderEl.style.display = 'none';
+    refs.loaderMore.style.display = "none";
   }
 })
