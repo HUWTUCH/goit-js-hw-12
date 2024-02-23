@@ -1,5 +1,6 @@
+import axios from "axios";
 
-export function getSearchPhotoAPI(userSymbol)  {
+export async function getSearchPhotoAPI(userSymbol, page = 1)  {
   const KEY_API = '42320428-e8ed9ab9e474091db19815d3a'
 
   const listParameters = {
@@ -8,13 +9,15 @@ export function getSearchPhotoAPI(userSymbol)  {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
+    page,
+    per_page: 15,
   }
 
-  const queryString = new URLSearchParams(listParameters).toString();
-  const BASE_URL = `https://pixabay.com/api/?${queryString}`
-
-  return fetch(BASE_URL, {
-    method: "GET",
-    mode: "cors",
-  }).then(res=>res.json());
+  try {
+    const queryString = new URLSearchParams(listParameters).toString();
+    const BASE_URL = await axios.get(`https://pixabay.com/api/?${queryString}`)
+    return BASE_URL.data
+  } catch (error) {
+    throw new Error('Failed to fetch data');
+  }
 }

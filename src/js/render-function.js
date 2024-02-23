@@ -30,7 +30,7 @@ export function photoTemplate(data) {
           </li>`;
     })
   .join("")
-  refs.listEL.insertAdjacentHTML('afterbegin', markup);
+  refs.listEL.insertAdjacentHTML('beforeend', markup);
   const lightbox = new SimpleLightbox('.gallery a' , options);
   lightbox.refresh();
   refs.formEL.reset();
