@@ -42,6 +42,7 @@ refs.formEL.addEventListener('submit', async (e) => {
     appState.lastSearchData = userSubmit;
 
     if (!data.hits.length) {
+      refs.buttonLoad.style.display = "none";
       iziToast.show({
         message: "Sorry, there are no images matching your search query. Please try again!",
         backgroundColor: 'red',
@@ -77,10 +78,12 @@ refs.buttonLoad.addEventListener('click', async (e) => {
   try {
     const data = await getSearchPhotoAPI(appState.lastSearchData, currentPage);
     photoTemplate(data);
+
     if (data.hits.length >= 40) { // Заміна магічного числа
       const cardHeight = refs.galleryList.firstElementChild.getBoundingClientRect().height;
       window.scrollBy({ top: cardHeight * 2, behavior: 'smooth' });
     }
+
   } catch (error) {
     refs.buttonLoad.style.display = "none";
     // Показ повідомлення про досягнення кінця результатів
