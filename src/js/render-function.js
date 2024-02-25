@@ -6,6 +6,8 @@ const refs = {
   listEL: document.querySelector('.gallery'),
 }
 
+let lightbox = null; // зберігатиме посилання на поточний екземпляр галереї
+
 export function photoTemplate(data) {
   const options = {
     captions: true,
@@ -29,9 +31,15 @@ export function photoTemplate(data) {
           </div>
           </li>`;
     })
-  .join("")
+    .join("")
   refs.listEL.insertAdjacentHTML('beforeend', markup);
-  const lightbox = new SimpleLightbox('.gallery a' , options);
-  lightbox.refresh();
+
+  // Знищення попереднього екземпляру галереї, якщо він існує
+  if (lightbox) {
+    lightbox.destroy();
+  }
+
+  // Ініціалізація нового екземпляру галереї
+  lightbox = new SimpleLightbox('.gallery a' , options);
   refs.formEL.reset();
 }
