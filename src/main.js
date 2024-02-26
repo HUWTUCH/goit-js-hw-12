@@ -72,26 +72,30 @@ refs.buttonLoad.addEventListener('click', async (e) => {
   if (!appState.lastSearchData) {
     return;
   }
+
   const currentPage = Math.ceil(refs.galleryList.children.length / 40) + 1; // Заміна магічного числа
   refs.loaderMore.style.display = "block";
 
   try {
     const data = await getSearchPhotoAPI(appState.lastSearchData, currentPage);
     photoTemplate(data);
+    const totalPages = Math.ceil(data.totalHits/40);
+    if (totalPages < currentPage +1 ) {
+      refs.buttonLoad.style.display = "none";
+      iziToast.show({
+        message: "We're sorry, but you've reached the end of search results.",
+        backgroundColor: 'blue',
+        position: 'topRight'
+      });
+    } else {
+      refs.buttonLoad.style.display = "block";
+    }
 
     if (data.hits.length >= 40) { // Заміна магічного числа
       const cardHeight = refs.galleryList.firstElementChild.getBoundingClientRect().height;
       window.scrollBy({ top: cardHeight * 2, behavior: 'smooth' });
     }
 
-  } catch (error) {
-    refs.buttonLoad.style.display = "none";
-    // Показ повідомлення про досягнення кінця результатів
-    iziToast.show({
-      message: "We're sorry, but you've reached the end of search results.",
-      backgroundColor: 'blue',
-      position: 'topRight'
-    });
   } finally {
     refs.loaderMore.style.display = "none";
   }
